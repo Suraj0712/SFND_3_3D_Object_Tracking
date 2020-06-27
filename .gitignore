@@ -1,2 +1,3 @@
 build/
 yolov3.weights
+.vscode/
