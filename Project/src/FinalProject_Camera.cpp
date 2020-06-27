@@ -35,7 +35,7 @@ int main(int argc, const char *argv[])
     string imgPrefix = "KITTI/2011_09_26/image_02/data/000000"; // left camera, color
     string imgFileType = ".png";
     int imgStartIndex = 0; // first file index to load (assumes Lidar and camera names have identical naming convention)
-    int imgEndIndex = 75;   // last file index to load
+    int imgEndIndex = 10;   // last file index to load
     int imgStepWidth = 1; 
     int imgFillWidth = 4;  // no. of digits which make up the file index (e.g. img-0001.png)
 
@@ -73,6 +73,9 @@ int main(int argc, const char *argv[])
     int dataBufferSize = 2;       // no. of images which are held in memory (ring buffer) at the same time
     vector<DataFrame> dataBuffer; // list of data frames which are held in memory at the same time
     bool bVis = false;            // visualize results
+
+    // vector<double> ttc_lidar;
+    // vector<double> ttc_cam;   
 
     /* MAIN LOOP OVER ALL IMAGES */
 
@@ -290,9 +293,10 @@ int main(int argc, const char *argv[])
                         cv::namedWindow(windowName, 4);
                         cv::imshow(windowName, visImg);
                         cout << "Press key to continue to next frame" << endl;
-                        cv::waitKey(1000);
+                        cv::waitKey(0);
                     }
                     bVis = false;
+ 
 
                 } // eof TTC computation
             } // eof loop over all BB matches            
@@ -301,5 +305,15 @@ int main(int argc, const char *argv[])
         cout<<"\n\n";
     } // eof loop over all images
 
+    // for(auto i: ttc_cam)
+    // {
+    //     cout<<i<<",";
+    // }
+    // cout<<"\n";
+
+    // for(auto i: ttc_lidar)
+    // {
+    //     cout<<i<<",";
+    // }
     return 0;
 }
