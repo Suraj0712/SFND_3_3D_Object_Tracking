@@ -1,4 +1,3 @@
-
 #include <numeric>
 #include "matching2D.hpp"
 
@@ -19,19 +18,35 @@ void matchDescriptors(std::vector<cv::KeyPoint> &kPtsSource, std::vector<cv::Key
     }
     else if (matcherType.compare("MAT_FLANN") == 0)
     {
-        // ...
+        if (descSource.type() != CV_32F) 
+        {
+        	descSource.convertTo(descSource, CV_32F);
+        }
+        if (descRef.type() != CV_32F) 
+        {
+        	descRef.convertTo(descRef, CV_32F);
+        }
+        matcher = cv::DescriptorMatcher::create(cv::DescriptorMatcher::FLANNBASED);
     }
 
     // perform matching task
     if (selectorType.compare("SEL_NN") == 0)
     { // nearest neighbor (best match)
 
-        matcher->match(descSource, descRef, matches); // Finds the best match for each descriptor in desc1
+        matcher->match(descSource, descRef, matches);  // Finds the best match for each descriptor in desc1
     }
     else if (selectorType.compare("SEL_KNN") == 0)
     { // k nearest neighbors (k=2)
-
-        // ...
+        vector<vector<cv::DMatch>> knnMatches;
+    	matcher->knnMatch(descSource, descRef, knnMatches, 2);
+    	const double threshold = 0.8;
+    	for (auto m = knnMatches.begin(); m != knnMatches.end(); m++) 
+        {
+    		if ((*m)[0].distance < threshold * (*m)[1].distance) 
+            {
+    			matches.push_back((*m)[0]);
+    		}
+    	}
     }
 }
 
