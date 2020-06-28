@@ -76,10 +76,11 @@ $ ./<executable_name>
 Implement the method "matchBoundingBoxes", which takes as input both the previous and the current data frames and provides as output the ids of the matched regions of interest (i.e. the boxID property). Matches must be the ones with the highest number of keypoint correspondences.
    > For this task I have created a 2D array of size ```#bounding boxes in the previous frame * #bounding boxes in the current frame```. Then I iterate over matches and based on the location of keypoint in the current and previous frame to find the correspondence between bounding boxes. After iterating over all the matches I get a 2D array structure which is similar to the adjacency map between bounding boxes from two successive frames. To find the best match I iterate over the rows and search for max value. Finally, I updated the map containing the bounding box matches.
 
-* Lid
-<img src="./Project/images/10.png" width="779" height="414" title="Lidar Data on image plane before filterig"/>
+* Lidar Data on image plane before filterig
+<img src="./Project/images/10.png" width="779" height="414" />
 
-<img src="./Project/images/11.png" width="779" height="414" title="Lidar Data on image plane after filterig"/>
+* Lidar Data on image plane after filterig
+<img src="./Project/images/11.png" width="779" height="414" />
 
 #### FP.2 Compute Lidar-based TTC
 Compute the time-to-collision in second for all matched 3D objects using only Lidar measurements from the matched bounding boxes between current and previous frame.
@@ -113,7 +114,7 @@ Find examples where the TTC estimate of the Lidar sensor does not seem plausible
 |Camera TTC|16.2688|16.7673|17.7801|15.3782|16.118 |16.3351|16.4664|17.6808|17.3522|18.6324|
 |Lidar TTC |12.5156|12.6142|14.091 |16.6894|15.7465|12.7835|11.9844|13.1241|13.0241|11.1746|
 
-   > For some frames I got the INF, Negative or High variation``` in the TTC values for both the sensors. After careful examination, I observed that most of the time the root cause is improper detection and selection of the bounding box. 
+   > For some frames I got the ```INF, Negative or High variation``` in the TTC values for both the sensors. After careful examination, I observed that most of the time the root cause is improper detection and selection of the bounding box. 
 
 1. I also observed significant ```noise in the Lidar data and calibration Noise for camera data```. which resulted in a significant difference in the TTC.
 2. I think significant improvement is possible in the given estimate if we consider the ```multiple points for TTC calculation, fuse Camera and Lidar sensor on hardware, and Kalman filter```. if we consider the multiple points the estimate will be robust. Fusing the sensors will reduce the calibration error significantly. Finally, Kalman filter because of its recursive nature will yield better results.
